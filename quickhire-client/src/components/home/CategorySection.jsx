@@ -46,20 +46,20 @@ const CategorySection = () => {
                 className={`w-full text-left p-7 rounded-xl border-2 transition-all duration-200 cursor-pointer group
                   ${cat.highlight
                     ? 'bg-primary-600 border-primary-600'
-                    : 'bg-white border-gray-200 hover:border-primary-400'
+                    : 'bg-white border-gray-200 hover:border-primary-400 hover:bg-primary-600'
                   }`}
               >
                 <div className="mb-5">
                   <cat.Icon
                     size={32}
                     strokeWidth={1.5}
-                    className={cat.highlight ? 'text-white' : 'text-primary-600'}
+                    className={cat.highlight ? 'text-white' : 'text-primary-600 group-hover:text-white'}
                   />
                 </div>
-                <p className={`font-bold text-base mb-1.5 ${cat.highlight ? 'text-white' : 'text-dark'}`}>
+                <p className={`font-bold text-base mb-1.5 ${cat.highlight ? 'text-white' : 'text-dark group-hover:text-white'}`}>
                   {cat.name}
                 </p>
-                <p className={`text-sm flex items-center gap-2 ${cat.highlight ? 'text-white/80' : 'text-gray-400'}`}>
+                <p className={`text-sm flex items-center gap-2 ${cat.highlight ? 'text-white/80' : 'text-gray-400 group-hover:text-white/80'}`}>
                   {cat.count} jobs available
                   <ArrowRight size={13} />
                 </p>
