@@ -9,42 +9,28 @@ import { jobsApi } from '../../services/api'
 const LatestJobs = () => {
   const [jobs,    setJobs]    = useState([])
   const [loading, setLoading] = useState(true)
-  const [error,   setError]   = useState(null)
   const navigate = useNavigate()
 
-  const fetchJobs = () => {
-    setError(null)
-    setLoading(true)
-    jobsApi.getAll()
-      .then(res => {
-        const data = res.data?.data ?? []
-        setJobs(data.slice(0, 4))
-      })
-      .catch(err => {
-        console.error('Failed to load latest jobs', err)
-        setJobs([])
-        setError(err.message || 'Could not reach server. Is the backend running on port 5000?')
-      })
-      .finally(() => setLoading(false))
-  }
-
   useEffect(() => {
-    fetchJobs()
+    jobsApi.getAll()
+      .then(res => setJobs(res.data.data?.slice(0, 8) ?? []))
+      .catch(() => setJobs([]))
+      .finally(() => setLoading(false))
   }, [])
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <ScrollReveal variant="fadeUp">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-bold text-dark">
-              Latest <span className="text-accent">jobs open</span>
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="section-title">
+              Latest <span>jobs open</span>
             </h2>
             <motion.button
               whileHover={{ x: 4 }}
               onClick={() => navigate('/jobs')}
-              className="hidden sm:flex items-center gap-2 text-sm font-semibold
+              className="hidden sm:flex items-center gap-2 text-sm font-semibold 
                          text-primary-600 hover:text-primary-700 transition-colors"
             >
               Show all jobs <ArrowRight size={14} />
@@ -54,18 +40,13 @@ const LatestJobs = () => {
 
         {loading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {[...Array(4)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <div key={i} className="h-20 bg-gray-100 rounded-2xl animate-pulse" />
             ))}
           </div>
-        ) : error ? (
-          <div className="rounded-2xl border border-red-100 bg-red-50 px-6 py-8 text-center">
-            <p className="text-red-700 font-medium mb-2">Couldn&apos;t load latest jobs</p>
-            <p className="text-sm text-red-600 mb-4">{error}</p>
-            <p className="text-xs text-gray-500 mb-4">Start your backend (e.g. on port 5000) and try again.</p>
-            <button type="button" onClick={fetchJobs} className="btn-primary">
-              Try again
-            </button>
+        ) : jobs.length === 0 ? (
+          <div className="text-center py-12 text-gray-400">
+            <p>No jobs found.</p>
           </div>
         ) : (
           <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-4">

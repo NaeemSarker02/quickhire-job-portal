@@ -39,7 +39,8 @@ export const ScrollReveal = ({
 // Stagger container for list animations
 export const StaggerContainer = ({ children, className = '', staggerDelay = 0.08 }) => {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  // Use generous margin so content triggers in view earlier (fixes mobile where section is below fold)
+  const isInView = useInView(ref, { once: true, margin: '80px', amount: 0.1 })
 
   return (
     <motion.div
