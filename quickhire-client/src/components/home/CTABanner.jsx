@@ -102,8 +102,8 @@ const CTABanner = () => {
                     ))}
                   </div>
                   <div className="flex justify-between mt-1">
-                    {['M','T','W','T','F','S','S'].map(d => (
-                      <span key={d} className="text-white/40 text-xs flex-1 text-center">{d}</span>
+                    {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d, i) => (
+                      <span key={i} className="text-white/40 text-xs flex-1 text-center">{d.charAt(0)}</span>
                     ))}
                   </div>
                 </div>
