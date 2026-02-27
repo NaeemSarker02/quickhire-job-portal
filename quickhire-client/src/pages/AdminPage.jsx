@@ -16,6 +16,17 @@ const INIT_JOB = {
   type: 'Full-time', salary: '', description: '', requirements: '',
 }
 
+// Must be outside AdminPage to prevent re-mount on every keystroke
+const Field = ({ label, required, error, children }) => (
+  <div>
+    <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5 block">
+      {label} {required && <span className="text-red-500">*</span>}
+    </label>
+    {children}
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+  </div>
+)
+
 const AdminPage = () => {
   const [tab,         setTab]         = useState('dashboard') // dashboard | jobs | add
   const [jobs,        setJobs]        = useState([])
@@ -102,16 +113,6 @@ const AdminPage = () => {
     { id: 'jobs',      label: 'Job Listing', icon: List            },
     { id: 'add',       label: 'Post a Job',  icon: PlusCircle      },
   ]
-
-  const Field = ({ label, required, error, children }) => (
-    <div>
-      <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5 block">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-    </div>
-  )
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16 flex">
