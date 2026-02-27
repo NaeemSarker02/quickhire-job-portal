@@ -1,16 +1,51 @@
-# React + Vite
+# QuickHire — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React.js + Tailwind CSS + Framer Motion job board UI.
 
-Currently, two official plugins are available:
+## Tech Stack
+- **React 18** + Vite
+- **Tailwind CSS** — utility-first styling
+- **Framer Motion** — page transitions, scroll animations, micro-interactions
+- **React Router v6** — client-side routing
+- **Axios** — API calls
+- **Lucide React** — icons
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Pages
+| Route | Description |
+|-------|-------------|
+| `/` | Home — Hero, Categories, Featured & Latest jobs |
+| `/jobs` | Job listings with search & filter |
+| `/jobs/:id` | Job detail + Apply Now form |
+| `/admin` | Admin dashboard — post & delete jobs |
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# 1. Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# 2. Create .env file
+cp .env.example .env
+# Edit VITE_API_URL to point to your backend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 3. Start dev server
+npm run dev
+# → http://localhost:3000
+```
+
+## Folder Structure
+```
+src/
+├── components/
+│   ├── common/       # JobCard, Loader, ScrollReveal
+│   ├── home/         # Hero, CategorySection, FeaturedJobs, LatestJobs, CTABanner
+│   └── layout/       # Navbar, Footer, Layout
+├── pages/            # Home, JobsPage, JobDetailPage, AdminPage, NotFound
+├── services/         # api.js (axios)
+└── utils/            # helpers.js (colors, formatters, constants)
+```
+
+## Environment Variables
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VITE_API_URL` | Backend API base URL | `http://localhost:5000/api` |
