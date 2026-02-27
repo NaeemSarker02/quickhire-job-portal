@@ -9,19 +9,27 @@ import { jobsApi } from '../../services/api'
 const LatestJobs = () => {
   const [jobs,    setJobs]    = useState([])
   const [loading, setLoading] = useState(true)
+  const [error,   setError]   = useState(null)
   const navigate = useNavigate()
 
-  useEffect(() => {
+  const fetchJobs = () => {
+    setError(null)
+    setLoading(true)
     jobsApi.getAll()
       .then(res => {
         const data = res.data?.data ?? []
         setJobs(data.slice(0, 4))
       })
-      .catch(error => {
-        console.error('Failed to load latest jobs', error)
+      .catch(err => {
+        console.error('Failed to load latest jobs', err)
         setJobs([])
+        setError(err.message || 'Could not reach server. Is the backend running on port 5000?')
       })
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    fetchJobs()
   }, [])
 
   return (
@@ -49,6 +57,15 @@ const LatestJobs = () => {
             {[...Array(4)].map((_, i) => (
               <div key={i} className="h-20 bg-gray-100 rounded-2xl animate-pulse" />
             ))}
+          </div>
+        ) : error ? (
+          <div className="rounded-2xl border border-red-100 bg-red-50 px-6 py-8 text-center">
+            <p className="text-red-700 font-medium mb-2">Couldn&apos;t load latest jobs</p>
+            <p className="text-sm text-red-600 mb-4">{error}</p>
+            <p className="text-xs text-gray-500 mb-4">Start your backend (e.g. on port 5000) and try again.</p>
+            <button type="button" onClick={fetchJobs} className="btn-primary">
+              Try again
+            </button>
           </div>
         ) : (
           <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-4">
