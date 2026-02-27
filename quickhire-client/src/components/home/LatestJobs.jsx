@@ -6,17 +6,6 @@ import { ScrollReveal, StaggerContainer, StaggerItem } from '../common/ScrollRev
 import JobCard from '../common/JobCard'
 import { jobsApi } from '../../services/api'
 
-const MOCK_JOBS = [
-  { id: 1,  title: 'Social Media Assistant', company: 'Nomad',    location: 'Paris, France',        type: 'Full-time', category: 'Marketing', created_at: new Date().toISOString() },
-  { id: 9,  title: 'Social Media Assistant', company: 'Netlify',  location: 'Paris, France',        type: 'Full-time', category: 'Marketing', created_at: new Date().toISOString() },
-  { id: 2,  title: 'Brand Designer',         company: 'Dropbox',  location: 'San Francisco, USA',   type: 'Full-time', category: 'Design',    created_at: new Date().toISOString() },
-  { id: 10, title: 'Brand Designer',         company: 'Maze',     location: 'San Francisco, USA',   type: 'Full-time', category: 'Design',    created_at: new Date().toISOString() },
-  { id: 3,  title: 'Interactive Developer',  company: 'Terraform', location: 'Hamburg, Germany',   type: 'Full-time', category: 'Technology',created_at: new Date().toISOString() },
-  { id: 11, title: 'Interactive Developer',  company: 'Udacity',  location: 'Hamburg, Germany',    type: 'Full-time', category: 'Technology',created_at: new Date().toISOString() },
-  { id: 4,  title: 'HR Manager',             company: 'Packer',   location: 'Lucern, Switzerland',  type: 'Full-time', category: 'Marketing', created_at: new Date().toISOString() },
-  { id: 12, title: 'HR Manager',             company: 'Webflow',  location: 'Lucern, Switzerland',  type: 'Full-time', category: 'Marketing', created_at: new Date().toISOString() },
-]
-
 const LatestJobs = () => {
   const [jobs,    setJobs]    = useState([])
   const [loading, setLoading] = useState(true)
@@ -25,15 +14,18 @@ const LatestJobs = () => {
   useEffect(() => {
     jobsApi.getAll()
       .then(res => {
-        const data = res.data.data ?? []
-        setJobs(data.length > 0 ? data.slice(0, 8) : MOCK_JOBS)
+        const data = res.data?.data ?? []
+        setJobs(data.slice(0, 4))
       })
-      .catch(() => setJobs(MOCK_JOBS))
+      .catch(error => {
+        console.error('Failed to load latest jobs', error)
+        setJobs([])
+      })
       .finally(() => setLoading(false))
   }, [])
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-[#f8f7ff]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <ScrollReveal variant="fadeUp">
@@ -53,13 +45,13 @@ const LatestJobs = () => {
         </ScrollReveal>
 
         {loading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-            {[...Array(8)].map((_, i) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {[...Array(4)].map((_, i) => (
               <div key={i} className="h-20 bg-gray-100 rounded-2xl animate-pulse" />
             ))}
           </div>
         ) : (
-          <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {jobs.map(job => (
               <StaggerItem key={job.id}>
                 <JobCard job={job} variant="list" />
