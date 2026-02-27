@@ -6,7 +6,7 @@ import { ScrollReveal, StaggerContainer, StaggerItem } from '../common/ScrollRev
 const categories = [
   { name: 'Design',         count: 235, Icon: Palette    },
   { name: 'Sales',          count: 756, Icon: TrendingUp  },
-  { name: 'Marketing',      count: 140, Icon: Megaphone,  },
+  { name: 'Marketing',      count: 140, Icon: Megaphone,  highlight: true },
   { name: 'Finance',        count: 325, Icon: DollarSign  },
   { name: 'Technology',     count: 436, Icon: Monitor     },
   { name: 'Engineering',    count: 542, Icon: Code2       },
@@ -36,6 +36,7 @@ const CategorySection = () => {
           </div>
         </ScrollReveal>
 
+        {/* grid-cols-2 on mobile, 4 on desktop */}
         <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {categories.map((cat) => (
             <StaggerItem key={cat.name}>
@@ -43,25 +44,25 @@ const CategorySection = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate(`/jobs?category=${cat.name}`)}
-                className={`w-full text-left p-7 rounded-xl border-2 transition-all duration-200 cursor-pointer group
+                className={`w-full text-left p-6 rounded-xl border-2 transition-all duration-200 cursor-pointer group
                   ${cat.highlight
                     ? 'bg-primary-600 border-primary-600'
-                    : 'bg-white border-gray-200 hover:border-primary-400 hover:bg-primary-600'
+                    : 'bg-white border-gray-200 hover:border-primary-400'
                   }`}
               >
-                <div className="mb-5">
+                <div className="mb-4">
                   <cat.Icon
-                    size={32}
+                    size={28}
                     strokeWidth={1.5}
-                    className={cat.highlight ? 'text-white' : 'text-primary-600 group-hover:text-white'}
+                    className={cat.highlight ? 'text-white' : 'text-primary-600'}
                   />
                 </div>
-                <p className={`font-bold text-base mb-1.5 ${cat.highlight ? 'text-white' : 'text-dark group-hover:text-white'}`}>
+                <p className={`font-bold text-sm sm:text-base mb-1 ${cat.highlight ? 'text-white' : 'text-dark'}`}>
                   {cat.name}
                 </p>
-                <p className={`text-sm flex items-center gap-2 ${cat.highlight ? 'text-white/80' : 'text-gray-400 group-hover:text-white/80'}`}>
+                <p className={`text-xs sm:text-sm flex items-center gap-1 ${cat.highlight ? 'text-white/80' : 'text-gray-400'}`}>
                   {cat.count} jobs available
-                  <ArrowRight size={13} />
+                  <ArrowRight size={12} />
                 </p>
               </motion.button>
             </StaggerItem>
