@@ -14,15 +14,10 @@ const JobCard = ({ job, variant = 'default' }) => {
       <motion.div whileHover={{ x: 4 }} transition={{ duration: 0.2 }}>
         <Link
           to={`/jobs/${job.id}`}
-          className="flex items-center gap-4 px-6 py-4 rounded-2xl border border-transparent
-                     bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]
-                     hover:shadow-[0_22px_60px_rgba(15,23,42,0.10)]
-                     hover:-translate-y-0.5 transition-all duration-300 group"
+          className="flex flex-col gap-2 px-6 py-4 rounded-2xl border border-gray-100
+                     bg-white hover:border-primary-200 hover:shadow-card
+                     transition-all duration-300 group"
         >
-          <div className={`w-12 h-12 rounded-xl ${bgColor} flex items-center justify-center
-                          text-white font-bold text-sm flex-shrink-0`}>
-            {initials}
-          </div>
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-dark text-sm group-hover:text-primary-600
                           transition-colors truncate">
@@ -34,18 +29,15 @@ const JobCard = ({ job, variant = 'default' }) => {
               <MapPin size={10} />
               {job.location}
             </p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <span className={`tag ${getTagClass(job.type || 'Full-time')}`}>
+                {job.type || 'Full-time'}
+              </span>
+              {job.category && (
+                <span className={`tag ${getTagClass(job.category)}`}>{job.category}</span>
+              )}
+            </div>
           </div>
-          <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
-            <span className={`tag ${getTagClass(job.type || 'Full-time')}`}>
-              {job.type || 'Full-time'}
-            </span>
-            {job.category && (
-              <span className={`tag ${getTagClass(job.category)}`}>{job.category}</span>
-            )}
-          </div>
-          <span className="hidden md:block text-xs text-gray-400 flex-shrink-0 ml-2">
-            {timeAgo(job.created_at)}
-          </span>
         </Link>
       </motion.div>
     )
