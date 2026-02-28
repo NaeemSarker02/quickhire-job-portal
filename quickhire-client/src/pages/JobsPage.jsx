@@ -20,7 +20,7 @@ const JobsPage = () => {
   const [category, setCategory] = useState(searchParams.get('category') || '')
   const [type,     setType]     = useState(searchParams.get('type')     || '')
 
-  const fetchJobs = useCallback(async () => {
+  const fetchJobs = useCallback(async (signal) => {
     setLoading(true)
     try {
       const params = {}
@@ -28,16 +28,20 @@ const JobsPage = () => {
       if (location) params.location = location
       if (category) params.category = category
       if (type)     params.type     = type
-      const res = await jobsApi.getAll(params)
+      const res = await jobsApi.getAll(params, { signal })
       setJobs(res.data.data ?? [])
-    } catch {
-      setJobs([])
+    } catch (err) {
+      if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') setJobs([])
     } finally {
       setLoading(false)
     }
   }, [search, location, category, type])
 
-  useEffect(() => { fetchJobs() }, [fetchJobs])
+  useEffect(() => {
+    const ac = new AbortController()
+    fetchJobs(ac.signal)
+    return () => ac.abort()
+  }, [fetchJobs])
 
   const handleSearch = (e) => {
     e.preventDefault()

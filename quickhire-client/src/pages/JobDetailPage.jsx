@@ -25,10 +25,12 @@ const JobDetailPage = () => {
   const [fieldErrs,  setFieldErrs]  = useState({})
 
   useEffect(() => {
-    jobsApi.getById(id)
+    const ac = new AbortController()
+    jobsApi.getById(id, { signal: ac.signal })
       .then(res => setJob(res.data.data))
-      .catch(() => setJob(null))
+      .catch((err) => { if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') setJob(null) })
       .finally(() => setLoading(false))
+    return () => ac.abort()
   }, [id])
 
   const validate = () => {

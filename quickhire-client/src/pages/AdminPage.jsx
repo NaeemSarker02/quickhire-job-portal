@@ -43,16 +43,22 @@ const AdminPage = () => {
     setTimeout(() => setToast(null), 3500)
   }
 
-  const fetchJobs = async () => {
+  const fetchJobs = async (signal) => {
     setLoading(true)
     try {
-      const res = await jobsApi.getAll()
+      const res = await jobsApi.getAll({}, signal ? { signal } : {})
       setJobs(res.data.data ?? [])
-    } catch { setJobs([]) }
+    } catch (err) {
+      if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') setJobs([])
+    }
     finally { setLoading(false) }
   }
 
-  useEffect(() => { fetchJobs() }, [])
+  useEffect(() => {
+    const ac = new AbortController()
+    fetchJobs(ac.signal)
+    return () => ac.abort()
+  }, [])
 
   const validate = () => {
     const e = {}

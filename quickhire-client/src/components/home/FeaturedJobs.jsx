@@ -24,13 +24,15 @@ const FeaturedJobs = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    jobsApi.getAll()
+    const ac = new AbortController()
+    jobsApi.getAll({}, { signal: ac.signal })
       .then(res => {
         const data = res.data.data ?? []
         setJobs(data.length > 0 ? data.slice(0, 8) : MOCK_JOBS)
       })
-      .catch(() => setJobs(MOCK_JOBS))
+      .catch((err) => { if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') setJobs(MOCK_JOBS) })
       .finally(() => setLoading(false))
+    return () => ac.abort()
   }, [])
 
   return (

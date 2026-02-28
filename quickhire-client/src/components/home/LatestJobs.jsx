@@ -12,10 +12,12 @@ const LatestJobs = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    jobsApi.getAll()
+    const ac = new AbortController()
+    jobsApi.getAll({}, { signal: ac.signal })
       .then(res => setJobs(res.data.data?.slice(0, 8) ?? []))
-      .catch(() => setJobs([]))
+      .catch((err) => { if (err.name !== 'CanceledError' && err.code !== 'ERR_CANCELED') setJobs([]) })
       .finally(() => setLoading(false))
+    return () => ac.abort()
   }, [])
 
   return (
