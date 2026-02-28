@@ -32,7 +32,7 @@ const validateApplication = [
   body("job_id").notEmpty().withMessage("Job ID is required"),
   body("name").notEmpty().withMessage("Name is required"),
   body("email").isEmail().withMessage("Valid email is required"),
-  body("resume_link").isURL().withMessage("Valid resume URL is required"),
+  // body("resume_link").isURL().withMessage("Valid resume URL is required"),
   handleValidationErrors,
 ];
 
