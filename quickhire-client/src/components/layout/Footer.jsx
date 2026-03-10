@@ -100,7 +100,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row 
                         items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm">2026 @ QuickHire. All rights reserved.</p>
+          <p className="text-gray-500 text-sm">2021 @ QuickHire. All rights reserved.</p>
           <div className="flex gap-6">
             {['Privacy Policy','Terms','Cookies'].map((item) => (
               <Link key={item} to="/"
