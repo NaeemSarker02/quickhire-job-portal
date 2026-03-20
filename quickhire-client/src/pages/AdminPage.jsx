@@ -16,6 +16,8 @@ const INIT_JOB = {
   type: 'Full-time', salary: '', description: '', requirements: '',
 }
 
+
+
 // Must be outside AdminPage to prevent re-mount on every keystroke
 const Field = ({ label, required, error, children }) => (
   <div>
